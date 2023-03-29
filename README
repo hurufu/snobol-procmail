@@ -1,0 +1,10 @@
+Here you can find a procmail (or slocal) replacement. It take an email as its
+standard input and classifies it to a folder and outputs it's name to standard
+output. It is supposed to run by MRA program like mpop or fetchmail.
+
+Sample mpop configuration to work in tandem with MH looks like:
+
+    delivery mda "rcvstore $(spitbol $THIS_DIR/*.spt)"
+
+It's a toy project, an attempt to learn a little bit of SNOBOL4 by doing
+something remotely useful.

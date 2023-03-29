@@ -1,0 +1,5 @@
+#!/bin/sh
+
+set -eux
+
+spitbol 0-common.spt 1-user.spt < ~/Mail/hurufu/542

@@ -1,0 +1,19 @@
+	To	email_address					:f(fail.addr)
+
+	name	'hurufu'					:f(alt)
+	domain	'yandex.ru'					:s(end)
+	domain	'gmail.com'					:f(n1)
+		dst = 'hurufu'					:s(match)
+n1	domain	'aol.co.uk'					:f(n2)
+		dst = 'aol'					:s(match)
+n2	domain	'outlook.com'					:f(default)
+		dst = 'outlook'					:s(match)
+
+alt	name	'alex.grabowski.a'				:f(default)
+		dst = 'ag'					:s(match)
+
+default		dst = 'unsorted'
+
+match		output = '+' dst				:(end)
+fail.addr	terminal = "Can't parse email address"		:(end)
+end
