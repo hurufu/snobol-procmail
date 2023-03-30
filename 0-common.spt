@@ -1,48 +1,48 @@
 * Common patterns
-		word = span(&lcase &ucase)
+	word = span(&lcase &ucase)
 * Simplified RFC822 email address matching pattern
-		words = span(&lcase &ucase '0123456789.')
-		e_local = words . name
-		e_domain = words . domain
-		e_label = '+' words . tag
-		email_address = e_local ('' | e_label) '@' e_domain
+	words = span(&lcase &ucase '0123456789.')
+	e_local = words . name
+	e_domain = words . domain
+	e_label = '+' words . tag
+	email_address = e_local ('' | e_label) '@' e_domain
 ********************************************************************************
 
 * Dummy field extractrion function
 * TODO: Signal failure if some of the mandatory fields were not found
-		define('extract(spec)')				:(extract.end)
-extract		A = &anchor
-		&anchor = 1
+	define('extract(spec)')		:(extract.end)
+extract	A = &anchor
+	&anchor = 1
 * TODO: Parse spec and populate S array
-		S = array(2)
-		S[1] = 'To'
-		S[2] = 'From'
+	S = array(2)
+	S[1] = 'To'
+	S[2] = 'From'
 * For each input line try to find a header that matches any value in S
-		T = table()
-extract.l1	line = input					:f(extract.done)
-		i = 0
-extract.l2	i = lgt(2, i) i + 1				:f(extract.l1)
-	line	S[i] ': ' (rem . val)				:f(extract.l2)
-		T[S[i]] = val					:(extract.l1)
+	T = table()
+extract.l1	line = input			:f(extract.done)
+	i = 0
+extract.l2	i = lgt(2, i) i + 1		:f(extract.l1)
+	line ? S[i] ': ' (rem . val)		:f(extract.l2)
+	T[S[i]] = val			:(extract.l1)
 
 extract.done	&anchor = A
-		extract = T					:s(return)
+	extract = T			:s(return)
 extract.end
 
 * TODO: Matches email address an assigns it's components to variables in
 * the argument list
-		define('addr(name,domain,tag)')			:(addr.end)
-		
+	define('addr(name,domain,tag)')		:(addr.end)
+	
 addr.end
 ********************************************************************************
 
-								:(start)
-fail.extr	terminal = "Can't extract headers"		:(end)
+				:(start)
+fail.extr	terminal = "Can't extract headers"	:(end)
 
 * Execute actual mail parser
 * TODO: Generate new variables based on the specification
-start		F = extract('To,From,X-Spam?')			:f(fail.extr)
-		To = F['To']
-		From = F['From']
-		X_Spam = F['X-Spam']
+start	F = extract('To,From,X-Spam?')		:f(fail.extr)
+	To = F['To']
+	From = F['From']
+	X_Spam = F['X-Spam']
 ********************************************************************************
