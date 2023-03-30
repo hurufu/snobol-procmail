@@ -10,7 +10,7 @@
 
 * Dummy field extractrion function
 * TODO: Signal failure if some of the mandatory fields were not found
-	define('extract(spec)')		:(extract.end)
+	define('extract(spec)')	:(extract.end)
 extract	A = &anchor
 	&anchor = 1
 * TODO: Parse spec and populate S array
@@ -19,29 +19,29 @@ extract	A = &anchor
 	S[2] = 'From'
 * For each input line try to find a header that matches any value in S
 	T = table()
-extract.l1	line = input			:f(extract.done)
+extract.l1	line = input	:f(extract.done)
 	i = 0
-extract.l2	i = lgt(2, i) i + 1		:f(extract.l1)
-	line ? S[i] ': ' (rem . val)		:f(extract.l2)
-	T[S[i]] = val			:(extract.l1)
+extract.l2	i = lgt(2, i) i + 1	:f(extract.l1)
+	line ? S[i] ': ' (rem . val)	:f(extract.l2)
+	T[S[i]] = val	:(extract.l1)
 
 extract.done	&anchor = A
-	extract = T			:s(return)
+	extract = T	:s(return)
 extract.end
 
 * TODO: Matches email address an assigns it's components to variables in
 * the argument list
-	define('addr(name,domain,tag)')		:(addr.end)
-	
+	define('addr(name,domain,tag)')	:(addr.end)
+
 addr.end
 ********************************************************************************
 
-				:(start)
+		:(start)
 fail.extr	terminal = "Can't extract headers"	:(end)
 
 * Execute actual mail parser
 * TODO: Generate new variables based on the specification
-start	F = extract('To,From,X-Spam?')		:f(fail.extr)
+start	F = extract('To,From,X-Spam?')	:f(fail.extr)
 	To = F['To']
 	From = F['From']
 	X_Spam = F['X-Spam']
